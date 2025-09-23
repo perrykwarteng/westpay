@@ -43,7 +43,7 @@ export default function DashboardPage() {
               Welcome back, Johnson
             </h1>
             <p className="text-gray-600 mt-1">
-              Here's an overview of your dashboard
+              Here&apos;s an overview of your dashboard
             </p>
           </div>
         </div>
