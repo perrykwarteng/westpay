@@ -6,11 +6,14 @@ import Link from "next/link";
 import { useState } from "react";
 
 import BackgroundImg from "../../../../public/images/authSmall.svg";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [agree, setAgree] = useState(false);
 
   const [password, setPassword] = useState("");
+
+  const route = useRouter();
 
   const getPasswordStrength = (password: string) => {
     if (!password) return { label: "", color: "" };
@@ -32,19 +35,19 @@ export default function Register() {
   const strength = getPasswordStrength(password);
 
   return (
-    <div className="flex h-screen">
-      <div className="flex items-center justify-center w-[60%] px-16">
-        <section className="w-full">
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="flex items-center justify-center w-full md:w-[60%] px-6 sm:px-8 md:px-5 lg:px-16 py-6 ">
+        <section className="w-full max-w-md md:max-w-none">
           <div>
             <Link href="/">
-              <h1 className="text-[22px] text-[#2B0850] font-semibold">
+              <h1 className="text-xl sm:text-2xl text-[#2B0850] font-semibold">
                 WestPay
               </h1>
             </Link>
           </div>
 
           <div className="mt-3">
-            <h2 className="text-[28px] text-[#2B0850] font-semibold">
+            <h2 className="text-2xl sm:text-[28px] text-[#2B0850] font-semibold leading-snug">
               Hi, Welcome to WestPay!
             </h2>
             <p className="text-sm text-gray-500">
@@ -52,13 +55,19 @@ export default function Register() {
             </p>
           </div>
 
-          <form className="mt-3.5 space-y-1.5 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+          <form
+            className="mt-3 space-y-2 w-full"
+            onSubmit={(e) => {
+              e.preventDefault();
+              route.push("/auth/verify");
+            }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input label="First Name" placeholder="John" icon="user" />
               <Input label="Last Name" placeholder="Smith" icon="user" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
                 label="Email"
                 placeholder="example@mail.com"
@@ -74,8 +83,8 @@ export default function Register() {
             <Input label="GPS Address" placeholder="GA-123-4567" icon="map" />
             <Input label="City of Residence" placeholder="Accra" icon="home" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
-              <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
                 <Input
                   type="password"
                   label="Password"
@@ -85,7 +94,7 @@ export default function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {strength.label && (
-                  <p className={`text-[10px] mt-0.5 ${strength.color}`}>
+                  <p className={`text-[11px] mt-0.5 ${strength.color}`}>
                     Password Strength: {strength.label}
                   </p>
                 )}
@@ -117,8 +126,8 @@ export default function Register() {
               </label>
             </div>
 
-            <div className="flex items-center justify-between pt-1.5">
-              <p className="text-sm text-gray-600 w-full">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pt-2">
+              <p className="flex-1 order-2 sm:order-1 text-sm text-gray-600 text-center sm:text-left">
                 Already have an account?{" "}
                 <Link
                   href="/auth/login"
@@ -129,12 +138,7 @@ export default function Register() {
               </p>
               <button
                 type="submit"
-                disabled={!agree}
-                className={`w-full px-6 py-2 rounded-md shadow-md transition text-white ${
-                  agree
-                    ? "bg-[#2B0850] hover:bg-[#3b0a6a]"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
+                className="flex-1 order-1 sm:order-2 w-full sm:w-auto px-6 py-2 rounded-md shadow-md transition cursor-pointer text-white bg-[#2B0850] hover:bg-[#3b0a6a]"
               >
                 Register
               </button>
@@ -143,7 +147,7 @@ export default function Register() {
         </section>
       </div>
 
-      <div className="w-[40%]">
+      <div className="hidden md:block md:w-[40%]">
         <Image
           src={BackgroundImg}
           alt="WestPay background"

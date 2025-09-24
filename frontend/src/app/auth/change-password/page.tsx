@@ -35,7 +35,7 @@ export default function ChangePassword() {
 
   return (
     <div className="flex h-screen">
-      <div className="flex items-center justify-center w-[50%] px-12">
+      <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
           <Link href="/">
             <h1 className="text-[22px] text-[#2B0850] font-semibold">
@@ -85,7 +85,7 @@ export default function ChangePassword() {
         </section>
       </div>
 
-      <div className="w-[50%]">
+      <div className="hidden md:block md:w-[50%]">
         <Image
           src={BackgroundImg}
           alt="WestPay background"

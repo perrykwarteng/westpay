@@ -6,13 +6,16 @@ import Link from "next/link";
 import { useState } from "react";
 
 import BackgroundImg from "../../../../public/images/authSmall.svg";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
 
+  const route = useRouter();
+
   return (
     <div className="flex h-screen">
-      <div className="flex items-center justify-center w-[50%] px-12">
+      <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
           <div>
             <Link href="/">
@@ -31,7 +34,13 @@ export default function Login() {
             </p>
           </div>
 
-          <form className="mt-6 space-y-4 w-full">
+          <form
+            className="mt-6 space-y-4 w-full"
+            onSubmit={(e) => {
+              e.preventDefault();
+              route.push("/dashboard");
+            }}
+          >
             <Input label="Email" placeholder="example@mail.com" icon="email" />
 
             <Input
@@ -80,7 +89,7 @@ export default function Login() {
         </section>
       </div>
 
-      <div className="w-[50%]">
+      <div className="hidden md:block md:w-[50%]">
         <Image
           src={BackgroundImg}
           alt="WestPay background"

@@ -4,11 +4,12 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundImg from "../../../../public/images/authSmall.svg";
+import { useRouter } from "next/navigation";
 
 export default function VerifyEmail() {
   const [code, setCode] = useState(Array(6).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
+  const route = useRouter();
   const handleCodeChange = (value: string, index: number) => {
     if (/^[0-9]?$/.test(value)) {
       const newCode = [...code];
@@ -26,12 +27,12 @@ export default function VerifyEmail() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Verification Code:", code.join(""));
+    route.push("/auth/login");
   };
 
   return (
     <div className="flex h-screen">
-      <div className="flex items-center justify-center w-[50%] px-12">
+      <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
           <Link href="/">
             <h1 className="text-[22px] text-[#2B0850] font-semibold">
@@ -71,7 +72,7 @@ export default function VerifyEmail() {
               type="submit"
               className="bg-[#2B0850] w-full text-white px-6 py-2 rounded-md shadow-md hover:bg-[#3b0a6a] transition"
             >
-              Verify & Continue
+              Verify & Login
             </button>
 
             <p className="text-sm text-gray-600">
@@ -87,7 +88,7 @@ export default function VerifyEmail() {
         </section>
       </div>
 
-      <div className="w-[50%]">
+      <div className="hidden md:block md:w-[50%]">
         <Image
           src={BackgroundImg}
           alt="WestPay background"

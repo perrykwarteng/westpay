@@ -5,24 +5,25 @@ import Input from "@/component/Input-icon/Input";
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundImg from "../../../../public/images/authSmall.svg";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-
+  const route = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Reset link sent to:", email);
+    route.push("/auth/chage-password");
   };
 
   return (
     <div className="flex h-screen">
-      <div className="flex items-center justify-center w-[50%] px-12">
+      <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
-            <Link href="/">
-              <h1 className="text-[22px] text-[#2B0850] font-semibold">
-                WestPay
-              </h1>
-            </Link>
+          <Link href="/">
+            <h1 className="text-[22px] text-[#2B0850] font-semibold">
+              WestPay
+            </h1>
+          </Link>
 
           <div className="mt-3">
             <h2 className="text-[28px] text-[#2B0850] font-semibold">
@@ -62,7 +63,7 @@ export default function ForgotPassword() {
         </section>
       </div>
 
-      <div className="w-[50%]">
+      <div className="hidden md:block w-[50%]">
         <Image
           src={BackgroundImg}
           alt="WestPay background"
