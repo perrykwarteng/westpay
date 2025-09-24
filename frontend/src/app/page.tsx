@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-white flex items-center justify-center p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2  items-center">
         <div className="flex items-center justify-center">
           <div className="w-[450px] h-[450px] rounded-2xl overflow-hidden flex items-center justify-center">
             <Image
@@ -18,7 +18,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="mt-10 md:mt-0 space-y-6">
           <p className="text-sm uppercase text-slate-400">
             WESTPAY ESCROW SYSTEM
           </p>
