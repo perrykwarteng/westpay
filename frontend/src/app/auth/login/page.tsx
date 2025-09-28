@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/component/Input-icon/Input";
+import { Input } from "@/component/Input-icon/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,7 +14,7 @@ export default function Login() {
   const route = useRouter();
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-white">
       <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
           <div>
@@ -38,16 +38,22 @@ export default function Login() {
             className="mt-6 space-y-4 w-full"
             onSubmit={(e) => {
               e.preventDefault();
-              route.push("/dashboard");
+              route.push("/user/dashboard");
             }}
           >
-            <Input label="Email" placeholder="example@mail.com" icon="email" />
+            <Input
+              label="Email"
+              placeholder="example@mail.com"
+              icon="email"
+              validate
+            />
 
             <Input
               type="password"
               label="Password"
               placeholder="Enter your password"
               icon="lock"
+              validate
             />
 
             <div className="flex items-center justify-between">

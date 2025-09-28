@@ -16,7 +16,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-white">
       <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
           <Link href="/">
