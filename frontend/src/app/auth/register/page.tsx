@@ -9,15 +9,12 @@ import Image from "next/image";
 import CustomSelect from "@/component/select/Select";
 
 interface FormData {
-  // Step 1
   firstName: string;
   lastName: string;
   country: string;
   phoneNumber: string;
   idDocument: File | null;
   idWithPicture: File | null;
-
-  // Step 2
   email: string;
   gpsAddress: string;
   residenceAddress: string;
@@ -79,7 +76,10 @@ export default function TwoStepRegistration() {
     { value: "burkina_faso", label: "Burkina Faso" },
   ];
 
-  const updateFormData = (field: keyof FormData, value: any) => {
+  const updateFormData = <K extends keyof FormData>(
+    field: K,
+    value: FormData[K]
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -122,16 +122,12 @@ export default function TwoStepRegistration() {
     );
   };
 
-  // ✅ Submit Step 1 (create user first)
   const handleStep1Submit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       console.log("Submitting Step 1 data:", formData);
-
-      // fake userId from backend
       const createdUserId = "user_" + Date.now();
       setUserId(createdUserId);
-
       setCurrentStep(2);
     } catch (error) {
       console.error(error);
@@ -139,12 +135,9 @@ export default function TwoStepRegistration() {
     }
   };
 
-  // ✅ Submit Step 2 (update existing user)
   const handleStep2Submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
     try {
       router.push("/auth/verify");
     } catch (error) {
@@ -174,7 +167,6 @@ export default function TwoStepRegistration() {
             </p>
           </div>
 
-          {/* Progress Steps */}
           <div className="mt-4 mb-4">
             <div className="flex items-center justify-between max-w-md">
               {steps.map((step, index) => {
@@ -226,7 +218,6 @@ export default function TwoStepRegistration() {
             </div>
           </div>
 
-          {/* Step 1 */}
           {currentStep === 1 && (
             <form onSubmit={handleStep1Submit} className="space-y-4">
               <h3 className="text-lg font-semibold text-[#2B0850] mb-1.5">
@@ -265,9 +256,10 @@ export default function TwoStepRegistration() {
                 />
                 <Input
                   label="Phone Number"
-                  type="tel"
+                  type="number"
                   placeholder="+233 55 123 4567"
                   value={formData.phoneNumber}
+                  maxLength={10}
                   onChange={(e) =>
                     updateFormData("phoneNumber", e.target.value)
                   }
@@ -283,12 +275,14 @@ export default function TwoStepRegistration() {
                 <FileUpload
                   label="ID (Front Picture)"
                   file={formData.idDocument}
-                  onChange={(file: any) => updateFormData("idDocument", file)}
+                  onChange={(file: File | null) =>
+                    updateFormData("idDocument", file)
+                  }
                 />
                 <FileUpload
                   label="Picture with ID"
                   file={formData.idWithPicture}
-                  onChange={(file: any) =>
+                  onChange={(file: File | null) =>
                     updateFormData("idWithPicture", file)
                   }
                 />
@@ -317,7 +311,7 @@ export default function TwoStepRegistration() {
             </form>
           )}
 
-          {/* Step 2 */}
+          {/* Step 2 Form */}
           {currentStep === 2 && (
             <form onSubmit={handleStep2Submit} className="space-y-4">
               <h3 className="text-lg font-semibold text-[#2B0850] mb-4">

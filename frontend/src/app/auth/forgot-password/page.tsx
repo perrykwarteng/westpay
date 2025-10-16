@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Input from "@/component/Input-icon/Input";
+import { Input } from "@/component/Input-icon/Input";
 import Image from "next/image";
 import Link from "next/link";
 import BackgroundImg from "../../../../public/images/authSmall.svg";

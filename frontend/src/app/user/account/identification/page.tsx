@@ -5,6 +5,7 @@ import { User, FileText, Camera, CheckCircle, Upload } from "lucide-react";
 import DashboardLayout from "@/component/Dashboard/DashboardLayout";
 import Input from "@/component/input/Input";
 import SelectInput from "@/component/select/Select";
+import Image from "next/image";
 
 interface FormData {
   idFront: File | null;
@@ -113,6 +114,11 @@ export default function KycForm(): React.JSX.Element {
     (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
       updateFormData(field, event.target.value);
     };
+  const handleSelectChange =
+    (field: keyof FormData) =>
+    (val: string): void => {
+      updateFormData(field, val);
+    };
 
   return (
     <DashboardLayout>
@@ -142,10 +148,11 @@ export default function KycForm(): React.JSX.Element {
                   </h1>
                   <p className="text-gray-600 leading-relaxed text-base sm:text-lg">
                     In order to protect your identity, we will be confirming
-                    your next address through Acuant's KBA Services. We will
-                    require an answer shortly and submit "Account KYC Address
-                    Verification Request begins to monitor in order to verify.
-                    Simply click the link in the email within 24 hours."
+                    your next address through Acuant&apos;s KBA Services. We
+                    will require an answer shortly and submit &quot;Account KYC
+                    Address Verification Request begins to monitor in order to
+                    verify. Simply click the link in the email within 24
+                    hours.&quot;
                   </p>
                 </div>
                 <button
@@ -263,7 +270,6 @@ export default function KycForm(): React.JSX.Element {
               </div>
               <div className="flex-1 p-8">
                 <div className="max-w-2xl mx-auto">
-                  {/* Step 1 */}
                   {step === 1 && (
                     <div className="space-y-8">
                       <div>
@@ -284,7 +290,7 @@ export default function KycForm(): React.JSX.Element {
                         <SelectInput
                           label="ID Type"
                           value={formData.idType}
-                          onChange={handleInputChange("idType")}
+                          onChange={handleSelectChange("idType")}
                           options={[
                             { value: "passport", label: "Passport" },
                             { value: "driver", label: "Driver's License" },
@@ -319,7 +325,6 @@ export default function KycForm(): React.JSX.Element {
                       </div>
                     </div>
                   )}
-                  {/* Step 2 */}
                   {step === 2 && (
                     <div className="space-y-8">
                       <div>
@@ -354,7 +359,7 @@ export default function KycForm(): React.JSX.Element {
                               className="flex flex-col items-center justify-center w-full h-48 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer"
                             >
                               {previewUrls.idFront ? (
-                                <img
+                                <Image
                                   src={previewUrls.idFront}
                                   alt="Front ID Preview"
                                   className="w-full h-full object-cover rounded-lg"
@@ -388,7 +393,7 @@ export default function KycForm(): React.JSX.Element {
                               className="flex flex-col items-center justify-center w-full h-48 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer"
                             >
                               {previewUrls.idBack ? (
-                                <img
+                                <Image
                                   src={previewUrls.idBack}
                                   alt="Back ID Preview"
                                   className="w-full h-full object-cover rounded-lg"
@@ -423,7 +428,6 @@ export default function KycForm(): React.JSX.Element {
                       </div>
                     </div>
                   )}
-                  {/* Step 3 */}
                   {step === 3 && (
                     <div className="space-y-8">
                       <div>
@@ -451,7 +455,7 @@ export default function KycForm(): React.JSX.Element {
                           />
                           {previewUrls.selfie ? (
                             <div className="relative">
-                              <img
+                              <Image
                                 src={previewUrls.selfie}
                                 alt="Selfie Preview"
                                 className="w-full h-80 object-cover rounded-lg border-2 border-gray-300"
@@ -596,7 +600,7 @@ export default function KycForm(): React.JSX.Element {
                                 <p className="text-sm font-medium text-gray-500 mb-2">
                                   Front ID
                                 </p>
-                                <img
+                                <Image
                                   src={previewUrls.idFront}
                                   alt="Front ID Preview"
                                   className="w-full h-32 object-cover rounded-lg border border-gray-200"
@@ -608,7 +612,7 @@ export default function KycForm(): React.JSX.Element {
                                 <p className="text-sm font-medium text-gray-500 mb-2">
                                   Back ID
                                 </p>
-                                <img
+                                <Image
                                   src={previewUrls.idBack}
                                   alt="Back ID Preview"
                                   className="w-full h-32 object-cover rounded-lg border border-gray-200"
@@ -620,7 +624,7 @@ export default function KycForm(): React.JSX.Element {
                                 <p className="text-sm font-medium text-gray-500 mb-2">
                                   Selfie
                                 </p>
-                                <img
+                                <Image
                                   src={previewUrls.selfie}
                                   alt="Selfie Preview"
                                   className="w-full h-32 object-cover rounded-lg border border-gray-200"

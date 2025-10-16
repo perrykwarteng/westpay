@@ -10,8 +10,15 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState(""); // ✅ added
+  const [password, setPassword] = useState(""); // ✅ added
 
-  const route = useRouter();
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push("/user/dashboard");
+  };
 
   return (
     <div className="flex h-screen bg-white">
@@ -34,17 +41,14 @@ export default function Login() {
             </p>
           </div>
 
-          <form
-            className="mt-6 space-y-4 w-full"
-            onSubmit={(e) => {
-              e.preventDefault();
-              route.push("/user/dashboard");
-            }}
-          >
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4 w-full">
             <Input
+              type="email"
               label="Email"
               placeholder="example@mail.com"
               icon="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               validate
             />
 
@@ -53,6 +57,8 @@ export default function Login() {
               label="Password"
               placeholder="Enter your password"
               icon="lock"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               validate
             />
 
@@ -75,6 +81,7 @@ export default function Login() {
               </Link>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
               className="bg-[#2B0850] w-full text-white px-6 py-2 rounded-md shadow-md hover:bg-[#3b0a6a] transition"
@@ -82,7 +89,8 @@ export default function Login() {
               Log In
             </button>
 
-            <p className="text-sm text-gray-600">
+            {/* Footer */}
+            <p className="text-sm text-gray-600 text-center">
               Not registered yet?{" "}
               <Link
                 href="/auth/register"
