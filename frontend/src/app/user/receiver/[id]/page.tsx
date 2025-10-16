@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { notFound, useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import {
   ShieldCheck,
   Calendar,
@@ -50,6 +50,7 @@ export default function ReceiverFlowDetailPage() {
   const [showAcceptModal, setShowAcceptModal] = useState(false);
   const [showDeclineConfirm, setShowDeclineConfirm] = useState(false);
   const [showDeclinedModal, setShowDeclinedModal] = useState(false);
+  const route = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
     termsAccepted: false,
@@ -149,6 +150,11 @@ export default function ReceiverFlowDetailPage() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handledoneModal = () => {
+    setShowAcceptModal(false);
+    route.push("/user/dashboard");
   };
 
   const handleDecline = () => {
@@ -620,7 +626,7 @@ export default function ReceiverFlowDetailPage() {
           </div>
         </section>
 
-        {formData.status !== "pending" && (
+        {/* {formData.status !== "pending" && (
           <div
             className={`p-6 rounded-xl shadow-lg text-white ${
               formData.status === "accepted"
@@ -647,7 +653,7 @@ export default function ReceiverFlowDetailPage() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       <Modal
@@ -741,7 +747,7 @@ export default function ReceiverFlowDetailPage() {
         footer={
           <button
             className="px-4 py-2 rounded-md bg-[#2B0850] text-white hover:bg-[#3c1070]"
-            onClick={() => setShowAcceptModal(false)}
+            onClick={handledoneModal}
           >
             Done
           </button>
@@ -789,7 +795,9 @@ export default function ReceiverFlowDetailPage() {
         footer={
           <button
             className="px-4 py-2 rounded-md bg-[#2B0850] text-white hover:bg-[#3c1070]"
-            onClick={() => setShowDeclinedModal(false)}
+            onClick={() => {
+              setShowDeclinedModal(false);
+            }}
           >
             Done
           </button>
