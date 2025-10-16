@@ -17,6 +17,7 @@ import {
 import MakePaymentForm from "@/component/Payment/MakePayment";
 import Modal from "@/component/Modal/Modal";
 import RatingDisplay from "@/component/Rating/RatingDisplay";
+import { useRouter } from "next/navigation";
 
 interface ServiceAreaOption {
   label: string;
@@ -97,6 +98,9 @@ export default function SendFlowPage() {
   const [currentStep, setCurrentStep] = useState<StepIndex>(1);
   const [touched, setTouched] = useState<Set<string>>(new Set());
   const [submitting, setSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     profile: {
@@ -220,17 +224,20 @@ export default function SendFlowPage() {
 
     setSubmitting(true);
     try {
-      await new Promise((res) => setTimeout(res, 800));
+      await new Promise((res) => setTimeout(res, 800)); // simulate API delay
       console.log("Escrow submission payload", formData);
-      alert(
-        "Submission received. We will notify the receiver to confirm start and end dates."
-      );
+      setIsModalOpen(true); // open success modal
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    router.push("/user/dashboard"); // redirect to dashboard after modal close
   };
 
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
@@ -761,6 +768,45 @@ export default function SendFlowPage() {
           </div>
         </section>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Submission Received"
+        size="sm"
+        footer={
+          <button
+            onClick={handleCloseModal}
+            className="bg-[#2B0850] text-white px-4 py-2 rounded-md hover:bg-[#3b0a6a] transition"
+          >
+            Track Project
+          </button>
+        }
+      >
+        <div className="text-center space-y-3">
+          <div className="flex justify-center">
+            <div className="flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+              <svg
+                className="h-6 w-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+          </div>
+          <p className="text-gray-700">
+            Your submission has been received. We&apos;ll notify the receiver to
+            Start the start and end dates.
+          </p>
+        </div>
+      </Modal>
     </DashboardLayout>
   );
 }
