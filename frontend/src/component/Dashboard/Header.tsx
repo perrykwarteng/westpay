@@ -49,11 +49,12 @@ export default function Header({ dropdownOpen, setDropdownOpen }: HeaderProps) {
 
   const handleProfile = () => {
     setProfileDropdownOpen(false);
+    router.push("/user/settings/profile");
   };
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between bg-white/80 backdrop-blur-sm p-4 shadow-sm border-b border-purple-100"
+      className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between bg-white/80 backdrop-blur-sm p-4 px-6 shadow-sm border-b border-purple-100"
       style={{ borderBottomColor: "#e8e0ff" }}
     >
       <div className="flex items-center gap-3">
