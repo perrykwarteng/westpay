@@ -477,7 +477,7 @@ export default function ReceiverFlowDetailPage() {
                   </div>
                 )}
 
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Additional Documents (Optional)
                 </label>
@@ -491,7 +491,7 @@ export default function ReceiverFlowDetailPage() {
                 <p className="text-xs text-gray-500 mt-1">
                   List any relevant documents or references
                 </p>
-              </div>
+              </div> */}
             </div>
           )}
 
