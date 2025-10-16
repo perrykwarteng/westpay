@@ -1,7 +1,7 @@
 "use client";
 
 interface TextInputProps {
-  type?: "text" | "password";
+  type?: string;
   label?: string;
   placeholder?: string;
   inputMode?: string;

@@ -6,14 +6,13 @@ import SelectSearch from "@/component/select/SelectSearch";
 import { CreditCard, Building2, Smartphone } from "lucide-react";
 import Input from "../input/Input";
 
-type PaymentType = "card" | "bank" | "momo";
-
 interface PaymentFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: PaymentPayload) => void;
   initialData?: Partial<PaymentPayload>;
 }
+type PaymentType = "card" | "bank" | "momo";
 
 interface PaymentPayload {
   method: PaymentType;
@@ -24,8 +23,8 @@ interface PaymentPayload {
     cvv: string;
     expiry: string;
   } | null;
-  accountNumber: string | null; // null for cards
-  accountName: string | null; // shown for bank/momo, hidden for cards
+  accountNumber: string | null;
+  accountName: string | null;
 }
 
 const banks = ["GCB Bank", "Stanbic Bank", "Ecobank", "Absa"];
@@ -279,7 +278,6 @@ export default function PaymentForm({
 
             {method === "card" && (
               <div className="grid gap-4 sm:grid-cols-2">
-                {/* Account Name */}
                 <div className="sm:col-span-2">
                   <Input
                     type="text"
@@ -289,7 +287,6 @@ export default function PaymentForm({
                     placeholder="(Optional)"
                   />
                 </div>
-                {/* Card number */}
                 <div className="sm:col-span-2">
                   <Input
                     type="text"
@@ -379,7 +376,6 @@ export default function PaymentForm({
                 )}
               </div>
 
-              {/* Account Name */}
               <div className="sm:col-span-1">
                 <Input
                   type="text"

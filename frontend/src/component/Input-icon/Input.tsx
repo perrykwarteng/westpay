@@ -8,20 +8,24 @@ import {
   Map,
   Home,
   Phone,
+  Search,
   Eye,
   EyeOff,
   Upload,
 } from "lucide-react";
+import Image from "next/image";
 
 interface TextInputProps {
-  type?: "text" | "password" | "email" | "tel";
+  type?: "text" | "password" | "email" | "tel" | "number";
   label?: string;
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  icon?: "user" | "email" | "lock" | "map" | "phone" | "home";
+  icon?: "user" | "email" | "lock" | "map" | "phone" | "home" | "search";
   className?: string;
   validate?: boolean;
+  maxLength?: number;
+  minLength?: number;
 }
 
 export const Input = ({
@@ -33,13 +37,15 @@ export const Input = ({
   icon = "user",
   className = "",
   validate = false,
+  maxLength,
+  minLength,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState(false);
 
   const isPassword = type === "password";
-  const inputType = isPassword && !showPassword ? "password" : type;
+  const inputType = isPassword && !showPassword ? "password" : "text";
 
   const iconMap = {
     user: User,
@@ -48,11 +54,11 @@ export const Input = ({
     map: Map,
     home: Home,
     phone: Phone,
+    search: Search,
   };
 
   const LeftIcon = iconMap[icon] || User;
 
-  // ✅ validation logic
   const validateInput = (val: string) => {
     if (!validate) return "";
 
@@ -84,19 +90,18 @@ export const Input = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) onChange(e);
     if (touched && validate) {
-      // ✅ re-validate only after user has touched the field
       setError(validateInput(e.target.value));
     }
   };
 
   return (
-    <div className={`flex flex-col gap-0.5 w-full ${className}`}>
+    <div className={`flex flex-col gap-1 w-full ${className}`}>
       {label && (
         <label className="text-sm font-medium text-gray-700">{label}</label>
       )}
 
       <div
-        className={`flex items-center border rounded-md px-3.5 py-2.5 bg-white 
+        className={`flex items-center border rounded-md px-3.5 py-2.5 bg-white transition-all
           ${
             error
               ? "border-red-500 focus-within:border-red-600 focus-within:ring-red-400"
@@ -113,13 +118,18 @@ export const Input = ({
           onChange={handleChange}
           onBlur={handleBlur}
           placeholder={placeholder}
+          maxLength={maxLength}
+          minLength={minLength}
           className="flex-1 bg-transparent outline-none border-none focus:ring-0 text-sm text-gray-800 placeholder-gray-400"
         />
 
         {isPassword && (
           <button
-            onClick={() => setShowPassword(!showPassword)}
             type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowPassword((prev) => !prev);
+            }}
             className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
           >
             {showPassword ? (
@@ -173,10 +183,11 @@ export const FileUpload = ({
   };
 
   return (
-    <div className={`flex flex-col gap-0.5 w-full ${className}`}>
+    <div className={`flex flex-col gap-1 w-full ${className}`}>
       {label && (
         <label className="text-sm font-medium text-gray-700">{label}</label>
       )}
+
       <div className="relative">
         <input
           ref={inputRef}
@@ -185,18 +196,23 @@ export const FileUpload = ({
           onChange={handleFileChange}
           className="hidden"
         />
+
         <div
           onClick={() => inputRef.current?.click()}
           className="flex flex-col items-center justify-center w-full h-32 bg-gray-50 border-2 border-dashed border-gray-300 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
         >
           {previewUrl ? (
             <div className="relative w-full h-full">
-              <img
+              {/* ✅ FIX: use layout="fill" instead of width/height */}
+              <Image
                 src={previewUrl}
                 alt="Preview"
-                className="w-full h-full object-cover rounded-md"
+                fill
+                className="object-cover rounded-md"
+                sizes="100vw"
+                unoptimized // ✅ allow blob URL rendering
               />
-              <div className="absolute inset-0 hover:bg-opacity-20 rounded-md flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-all rounded-md flex items-center justify-center">
                 <span className="text-white opacity-0 hover:opacity-100 transition-opacity bg-[#2B0850] px-3 py-1 rounded text-sm">
                   Change Image
                 </span>
