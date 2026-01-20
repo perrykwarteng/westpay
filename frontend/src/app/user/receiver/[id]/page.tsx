@@ -3,13 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { notFound, useParams, useRouter } from "next/navigation";
-import {
-  ShieldCheck,
-  Calendar,
-  CheckCircle2,
-  AlertCircle,
-  FileText,
-} from "lucide-react";
+import { ShieldCheck, Calendar, CheckCircle2, FileText } from "lucide-react";
 import DashboardLayout from "@/component/Dashboard/DashboardLayout";
 import { getTransactionById } from "@/data/mockTransactions";
 import Modal from "@/component/Modal/Modal";

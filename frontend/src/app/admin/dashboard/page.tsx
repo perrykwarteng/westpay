@@ -73,11 +73,10 @@ interface UserGrowthData {
   users: number;
 }
 export default function AdminDashboard() {
-  const [timeRange, setTimeRange] = useState<"24h" | "7d" | "30d" | "90d">(
-    "7d"
-  );
+  // const [timeRange, setTimeRange] = useState<"24h" | "7d" | "30d" | "90d">(
+  //   "7d"
+  // );
 
-  // Mock data - replace with real API calls
   const stats = {
     totalVolume: 2847650,
     activeTransactions: 43,

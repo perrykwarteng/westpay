@@ -128,7 +128,7 @@ const mockFAQs: FAQ[] = [
 
 export default function SupportAndFAQ() {
   const [activeTab, setActiveTab] = useState<"tickets" | "faqs">("tickets");
-  const [tickets, setTickets] = useState<SupportTicket[]>(mockTickets);
+  const [tickets, ] = useState<SupportTicket[]>(mockTickets);
   const [faqs, setFAQs] = useState<FAQ[]>(mockFAQs);
   const [q, setQ] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

@@ -6,7 +6,6 @@ import {
   Ban,
   CheckCircle,
   Mail,
-  Shield,
   Trash2,
   MoreVertical,
   Eye,
