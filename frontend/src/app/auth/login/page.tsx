@@ -4,33 +4,65 @@ import { Input } from "@/component/Input-icon/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import BackgroundImg from "../../../../public/images/authSmall.svg";
-import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
-  const [email, setEmail] = useState(""); // ✅ added
-  const [password, setPassword] = useState(""); // ✅ added
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const TEMP_CREDS = {
+    admin: {
+      email: "admin@westpay.com",
+      password: "admin123",
+    },
+    user: {
+      email: "user@westpay.com",
+      password: "user123",
+    },
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/user/dashboard");
+    setLoading(true);
+
+    await new Promise((res) => setTimeout(res, 1200));
+
+    if (
+      email === TEMP_CREDS.admin.email &&
+      password === TEMP_CREDS.admin.password
+    ) {
+      localStorage.setItem("role", "admin");
+      router.push("/admin/dashboard");
+      return;
+    }
+
+    if (
+      email === TEMP_CREDS.user.email &&
+      password === TEMP_CREDS.user.password
+    ) {
+      localStorage.setItem("role", "user");
+      router.push("/user/dashboard");
+      return;
+    }
+
+    setLoading(false);
   };
 
   return (
     <div className="flex h-screen bg-white">
       <div className="flex items-center justify-center w-full md:w-[50%] px-6 sm:px-8 md:px-5 lg:px-16 py-6">
         <section className="w-full max-w-md">
-          <div>
-            <Link href="/">
-              <h1 className="text-[22px] text-[#2B0850] font-semibold">
-                WestPay
-              </h1>
-            </Link>
-          </div>
+          <Link href="/">
+            <h1 className="text-[22px] text-[#2B0850] font-semibold">
+              WestPay
+            </h1>
+          </Link>
 
           <div className="mt-3">
             <h2 className="text-[28px] text-[#2B0850] font-semibold">
@@ -68,7 +100,7 @@ export default function Login() {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 text-[#2B0850] border-gray-300 rounded focus:ring-[#2B0850]"
+                  className="w-4 h-4 text-[#2B0850] border-gray-300 rounded"
                 />
                 Remember me
               </label>
@@ -81,15 +113,26 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
-              className="bg-[#2B0850] w-full text-white px-6 py-2 rounded-md shadow-md hover:bg-[#3b0a6a] transition"
+              disabled={loading}
+              className={`w-full px-6 py-2 rounded-md shadow-md text-white transition
+                ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#2B0850] hover:bg-[#3b0a6a]"
+                }`}
             >
-              Log In
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Logging in...
+                </span>
+              ) : (
+                "Log In"
+              )}
             </button>
 
-            {/* Footer */}
             <p className="text-sm text-gray-600 text-center">
               Not registered yet?{" "}
               <Link
